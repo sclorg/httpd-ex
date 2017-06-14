@@ -17,3 +17,7 @@ You can also build and deploy the application on OpenShift, assuming you have a
 working `oc` command line environment connected to your cluster already:
 
 `$ oc new-app centos/httpd-24-centos7~https://github.com/openshift/httpd-ex`
+
+You can also deploy the sample template for the application:
+
+`$ oc new-app -f https://raw.githubusercontent.com/openshift/httpd-ex/master/openshift/templates/httpd.json`
