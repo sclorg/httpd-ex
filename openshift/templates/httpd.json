@@ -92,7 +92,7 @@
             "from": {
               "kind": "ImageStreamTag",
               "namespace": "${NAMESPACE}",
-              "name": "httpd:2.4"
+              "name": "httpd:2.4-el8"
             }
           }
         },
