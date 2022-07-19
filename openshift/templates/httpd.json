@@ -92,7 +92,7 @@
             "from": {
               "kind": "ImageStreamTag",
               "namespace": "${NAMESPACE}",
-              "name": "httpd:2.4-el8"
+              "name": "httpd:${HTTPD_VERSION}"
             }
           }
         },
@@ -221,6 +221,13 @@
       "description": "The OpenShift Namespace where the ImageStream resides.",
       "required": true,
       "value": "openshift"
+    },
+    {
+      "name": "HTTPD_VERSION",
+      "displayName": "HTTPD Version",
+      "description": "Version of HTTPD image to be used (2.4-el8 by default).",
+      "required": true,
+      "value": "2.4-el8"
     },
     {
       "name": "MEMORY_LIMIT",
