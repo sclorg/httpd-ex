@@ -18,7 +18,8 @@
   "message": "The following service(s) have been created in your project: ${NAME}.\n\nFor more information about using this template, including OpenShift considerations, see https://github.com/sclorg/httpd-ex/blob/master/README.md.",
   "labels": {
       "template": "httpd-example",
-      "app": "httpd-example"
+      "app": "httpd-example",
+      "app.openshift.io/runtime": "apache"
   },
   "objects": [
     {
