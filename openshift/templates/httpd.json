@@ -141,7 +141,9 @@
         },
         "replicas": 1,
         "selector": {
-          "name": "${NAME}"
+          "matchLabels": {
+            "name": "${NAME}"
+          }
         },
         "template": {
           "metadata": {
