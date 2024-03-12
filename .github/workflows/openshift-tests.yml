@@ -1,0 +1,25 @@
+on:
+  issue_comment:
+    types:
+      - created
+jobs:
+  openshift-tests:
+    # This job only runs for '[test] pull request comments by owner, member
+    name: "RHEL8 tests: imagestream ${{ matrix.version }}"
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        version: [ "2.4-el7", "2.4-el8", "2.4-ubi8", "2.4-ubi9" ]
+
+    if: |
+      github.event.issue.pull_request
+      && contains(github.event.comment.body, '[test]')
+      && contains(fromJson('["OWNER", "MEMBER"]'), github.event.comment.author_association)
+    steps:
+      - uses: sclorg/tfaga-wrapper@main
+        with:
+          os_test: "rhel8"
+          version: ${{ matrix.version }}
+          test_case: "test"
+          private_api_key: ${{ secrets.TF_INTERNAL_API_KEY }}
