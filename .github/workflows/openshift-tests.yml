@@ -17,9 +17,14 @@ jobs:
       && contains(github.event.comment.body, '[test]')
       && contains(fromJson('["OWNER", "MEMBER"]'), github.event.comment.author_association)
     steps:
-      - uses: sclorg/tfaga-wrapper@main
+      - uses: sclorg/testing-farm-as-github-action@main
         with:
-          os_test: "rhel8"
-          version: ${{ matrix.version }}
-          test_case: "openshift-4"
-          private_api_key: ${{ secrets.TF_INTERNAL_API_KEY }}
+          api_key: ${{ secrets.TF_INTERNAL_API_KEY }}
+          compose: "RHEL-8.8.0-Nightly"
+          git_url: "https://gitlab.cee.redhat.com/platform-eng-core-services/sclorg-tmt-plans"
+          git_ref: "master"
+          tf_scope: "private"
+          tmt_plan_regex: "rhel8-openshift-4"
+          update_pull_request_status: true
+          pull_request_status_name: "RHEL8-OpenShift-4 - imagestream test ${{ matrix.version }}"
+          variables: "REPO_URL=${{ github.server_url }}/${{ github.repository }};REPO_NAME=${{ github.repository }};PR_NUMBER=${{ github.event.issue.number }};OS=rhel8;SINGLE_VERSION=${{ matrix.version }};TEST_NAME=test-openshift-4"
