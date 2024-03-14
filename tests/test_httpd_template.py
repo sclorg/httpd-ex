@@ -11,7 +11,6 @@ VERSION=os.getenv("SINGLE_VERSION")
 if not VERSION:
     VERSION="2.4-el8"
 
-@pytest.mark.parametrize('VERSION', ["2.4-el7", "2.4-el8", "2.4-ubi8", "2.4-ubi9"])
 class TestHTTPDExTemplate:
 
     def setup_method(self):
@@ -24,7 +23,20 @@ class TestHTTPDExTemplate:
     def teardown_method(self):
         self.oc_api.delete_project()
 
-    def test_httpd_ex_template_by_request(self, VERSION):
+    def test_httpd_ex_template_inside_cluster(self):
+        template_json = self.oc_api.get_raw_url_for_json(
+            container="httpd-ex", dir="openshift/templates", filename="httpd.json"
+        )
+        assert self.oc_api.deploy_template(
+            template=template_json, name_in_template="httpd-example", expected_output="Welcome to your static httpd",
+            openshift_args=["SOURCE_REPOSITORY_REF=master", f"HTTPD_VERSION={VERSION}", "NAME=httpd-example"]
+        )
+        assert self.oc_api.template_deployed(name_in_template="httpd-example")
+        assert self.oc_api.check_response_inside_cluster(
+            name_in_template="httpd-example", expected_output="Welcome to your static httpd"
+        )
+
+    def test_httpd_ex_template_by_request(self):
         template_json = self.oc_api.get_raw_url_for_json(
             container="httpd-ex", dir="openshift/templates", filename="httpd.json"
         )
@@ -34,5 +46,5 @@ class TestHTTPDExTemplate:
         )
         assert self.oc_api.template_deployed(name_in_template="httpd-example")
         assert self.oc_api.check_response_outside_cluster(
-            name_in_template="httpd-example", port=8080, expected_output="Welcome to your static httpd"
+            name_in_template="httpd-example", expected_output="Welcome to your static httpd"
         )
