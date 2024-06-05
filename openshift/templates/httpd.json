@@ -157,7 +157,7 @@
             "containers": [
               {
                 "name": "httpd-example",
-                "image": "${NAME}:latest",
+                "image": " ",
                 "ports": [
                   {
                     "containerPort": 8080
