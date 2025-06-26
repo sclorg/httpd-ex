@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        version: [ "2.4-el8", "2.4-ubi8", "2.4-ubi9" ]
+        version: [ "2.4-el8", "2.4-ubi8", "2.4-ubi9", "2.4-ubi10" ]
 
     if: |
       github.event.issue.pull_request
